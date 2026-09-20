@@ -49,7 +49,9 @@ it('rejects a booking with an unknown customer', function () {
 });
 
 it('includes the customer relationship when showing a booking', function () {
-    $booking = Booking::factory()->create();
+    $booking = Booking::factory()->for(Customer::factory())->create([
+        'status' => BookingStatus::Pending->value,
+    ]);
 
     $this->getJson("/api/v1/bookings/{$booking->id}")
         ->assertOk()
@@ -57,7 +59,9 @@ it('includes the customer relationship when showing a booking', function () {
 });
 
 it('enforces valid booking status transitions', function () {
-    $booking = Booking::factory()->create(['status' => BookingStatus::Pending]);
+    $booking = Booking::factory()->for(Customer::factory())->create([
+        'status' => BookingStatus::Pending->value,
+    ]);
 
     $this->patchJson("/api/v1/bookings/{$booking->id}/status", [
         'status' => BookingStatus::Confirmed->value,
