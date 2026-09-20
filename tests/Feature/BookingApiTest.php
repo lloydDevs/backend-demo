@@ -50,29 +50,33 @@ it('rejects a booking with an unknown customer', function () {
 
 it('includes the customer relationship when showing a booking', function () {
     $customer = Customer::factory()->create();
-    $booking = Booking::factory()->create([
+    $booking = $this->postJson('/api/v1/bookings', [
         'customer_id' => $customer->id,
-        'status' => BookingStatus::Pending->value,
-    ]);
+        'service_name' => ServiceType::Massage60->value,
+        'booking_date' => now()->addDay()->format('Y-m-d'),
+        'booking_time' => '10:30',
+    ])->assertCreated()->json('data');
 
-    $this->getJson("/api/v1/bookings/{$booking->id}")
+    $this->getJson("/api/v1/bookings/{$booking['id']}")
         ->assertOk()
-        ->assertJsonPath('data.customer.id', $booking->customer_id);
+        ->assertJsonPath('data.customer.id', $customer->id);
 });
 
 it('enforces valid booking status transitions', function () {
     $customer = Customer::factory()->create();
-    $booking = Booking::factory()->create([
+    $booking = $this->postJson('/api/v1/bookings', [
         'customer_id' => $customer->id,
-        'status' => BookingStatus::Pending->value,
-    ]);
+        'service_name' => ServiceType::Massage60->value,
+        'booking_date' => now()->addDay()->format('Y-m-d'),
+        'booking_time' => '10:30',
+    ])->assertCreated()->json('data');
 
-    $this->patchJson("/api/v1/bookings/{$booking->id}/status", [
+    $this->patchJson("/api/v1/bookings/{$booking['id']}/status", [
         'status' => BookingStatus::Confirmed->value,
     ])->assertOk()
         ->assertJsonPath('data.status', BookingStatus::Confirmed->value);
 
-    $this->patchJson("/api/v1/bookings/{$booking->id}/status", [
+    $this->patchJson("/api/v1/bookings/{$booking['id']}/status", [
         'status' => BookingStatus::Pending->value,
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['status']);
