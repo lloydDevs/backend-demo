@@ -29,5 +29,8 @@ class Booking extends Model
         return \App\Modules\Booking\Database\Factories\BookingFactory::new();
     }
 
-    public function customer(): BelongsTo { return $this->belongsTo(Customer::class); }
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+    }
 }

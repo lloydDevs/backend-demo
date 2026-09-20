@@ -35,9 +35,12 @@ class BookingService extends BaseService
 
     public function transition($booking, BookingStatus $status)
     {
-        if (! $booking->status->canTransitionTo($status)) {
+        $currentStatus = $booking->status
+            ?? BookingStatus::from($booking->getRawOriginal('status') ?? BookingStatus::Pending->value);
+
+        if (! $currentStatus->canTransitionTo($status)) {
             throw ValidationException::withMessages([
-                'status' => ["Cannot transition from '{$booking->status->value}' to '{$status->value}'."],
+                'status' => ["Cannot transition from '{$currentStatus->value}' to '{$status->value}'."],
             ]);
         }
 
