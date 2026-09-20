@@ -75,6 +75,27 @@ GET /api/v1/services
 
 ---
 
+## 3.1 Customers
+
+### `GET /customers`
+
+Returns the customer lookup list used by an API consumer when selecting a customer for a booking. Submit the selected `id` as `customer_id` when creating or updating a booking.
+
+```http
+GET /api/v1/customers
+```
+
+```json
+{
+  "data": [
+    { "id": 1, "name": "Dr. Otis Rath II", "email": "wkulass@example.com" },
+    { "id": 2, "name": "Maria Santos", "email": "maria@example.com" }
+  ]
+}
+```
+
+Authentication is intentionally omitted for this one-hour seminar.
+
 ## 4. Bookings
 
 ### 4.1 `GET /bookings`

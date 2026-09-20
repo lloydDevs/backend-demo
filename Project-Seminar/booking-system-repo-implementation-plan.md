@@ -200,6 +200,10 @@ Create a Postman collection with variables for `base_url` and `booking_id`, plus
 - **Rate-limit demo flakiness:** use a dedicated throttle test and reset the limiter between scenarios.
 - **Over-scoping the seminar:** leave authentication, authorization, users, tokens, queues, events, caching, frontend work, and repository layering beyond the existing project pattern out of this implementation.
 
+## Customer lookup endpoint
+
+`GET /api/v1/customers` returns customer IDs, names, and emails. An API consumer can display these choices and submit the selected ID as `customer_id` when creating a booking.
+
 ## Relationship demonstration
 
 The Booking module includes a real Eloquent relationship for the seminar:
@@ -207,6 +211,7 @@ The Booking module includes a real Eloquent relationship for the seminar:
 - `Customer` has many `Bookings`.
 - `Booking` belongs to `Customer`.
 - `bookings.customer_id` is a foreign key to `customers.id`.
+- `GET /api/v1/customers` provides customer choices for API consumers.
 - Booking requests send `customer_id`.
 - Booking responses include the related `customer` object.
 
