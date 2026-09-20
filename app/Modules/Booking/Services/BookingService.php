@@ -17,7 +17,7 @@ class BookingService extends BaseService
 
     public function list(?BookingStatus $status = null, int $perPage = 10): LengthAwarePaginator
     {
-        $query = \App\Modules\Booking\Models\Booking::query()->latest();
+        $query = \App\Modules\Booking\Models\Booking::query()->with('customer')->latest();
         if ($status) $query->where('status', $status->value);
         return $query->paginate($perPage);
     }

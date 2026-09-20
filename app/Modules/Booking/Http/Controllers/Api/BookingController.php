@@ -32,11 +32,18 @@ class BookingController
             ->setStatusCode(201);
     }
 
-    public function show(Booking $booking): BookingResource { return new BookingResource($booking->load('customer')); }
+    public function show(Booking $booking): BookingResource
+    {
+        return new BookingResource(
+            Booking::query()->with('customer')->findOrFail($booking->id),
+        );
+    }
 
     public function update(UpdateBookingRequest $request, Booking $booking): BookingResource
     {
-        return new BookingResource($this->service->updateBooking($booking->id, $request->validated())->load('customer'));
+        $updated = $this->service->updateBooking($booking->id, $request->validated());
+
+        return new BookingResource($updated->load('customer'));
     }
 
     public function destroy(Booking $booking): array
@@ -47,6 +54,8 @@ class BookingController
 
     public function updateStatus(TransitionBookingStatusRequest $request, Booking $booking): BookingResource
     {
+        $booking = Booking::query()->with('customer')->findOrFail($booking->id);
+
         return new BookingResource($this->service->transition($booking, BookingStatus::from($request->validated('status')))->load('customer'));
     }
 }
