@@ -101,8 +101,7 @@ GET /api/v1/bookings?page=1&status=confirmed
   "data": [
     {
       "id": 1,
-      "customer_name": "Juan Dela Cruz",
-      "customer_email": "juan@example.com",
+      "customer": { "id": 1, "name": "Juan Dela Cruz", "email": "juan@example.com" },
       "service_name": "conference_room_a",
       "service_label": "Conference Room A",
       "booking_date": "2026-09-25",
@@ -154,8 +153,7 @@ GET /api/v1/bookings/1
 {
   "data": {
     "id": 1,
-    "customer_name": "Juan Dela Cruz",
-    "customer_email": "juan@example.com",
+    "customer": { "id": 1, "name": "Juan Dela Cruz", "email": "juan@example.com" },
     "service_name": "conference_room_a",
     "service_label": "Conference Room A",
     "booking_date": "2026-09-25",
@@ -182,8 +180,7 @@ Creates a new booking.
 
 | Field | Type | Required | Rules |
 |---|---|---|---|
-| `customer_name` | string | Yes | max 255 chars |
-| `customer_email` | string | Yes | valid email format |
+| `customer_id` | integer | Yes | must reference an existing customer |
 | `service_name` | string | Yes | must be a valid `ServiceType` value (see [Section 7](#7-enum-reference)) |
 | `booking_date` | string | Yes | format `YYYY-MM-DD`, must be today or later |
 | `booking_time` | string | Yes | format `HH:MM` |
@@ -191,8 +188,7 @@ Creates a new booking.
 
 ```json
 {
-  "customer_name": "Maria Santos",
-  "customer_email": "maria@example.com",
+  "customer_id": 2,
   "service_name": "massage_60min",
   "booking_date": "2026-09-28",
   "booking_time": "10:30",
@@ -206,8 +202,7 @@ Creates a new booking.
 {
   "data": {
     "id": 26,
-    "customer_name": "Maria Santos",
-    "customer_email": "maria@example.com",
+    "customer": { "id": 2, "name": "Maria Santos", "email": "maria@example.com" },
     "service_name": "massage_60min",
     "service_label": "Massage - 60 Minutes",
     "booking_date": "2026-09-28",
@@ -350,7 +345,7 @@ All errors follow a consistent JSON shape. The `errors` field is only present on
 {
   "message": "The given data was invalid.",
   "errors": {
-    "customer_email": ["The customer email field must be a valid email address."],
+    "customer_id": ["The selected customer id is invalid."],
     "booking_date": ["The booking date field must be a date after or equal to today."]
   }
 }

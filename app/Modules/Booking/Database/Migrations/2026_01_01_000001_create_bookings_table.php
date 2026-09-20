@@ -9,8 +9,7 @@ return new class extends Migration {
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->string('customer_name');
-            $table->string('customer_email');
+            $table->foreignId('customer_id')->constrained()->cascadeOnDelete();
             $table->string('service_name');
             $table->date('booking_date');
             $table->time('booking_time');

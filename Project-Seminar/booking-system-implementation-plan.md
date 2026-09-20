@@ -37,13 +37,24 @@ This document outlines the implementation plan for a **Booking System REST API**
 
 ---
 
-## 3. Data Model — `Booking`
+## 3. Data Model — `Customer` and `Booking`
+
+`Customer` demonstrates the Eloquent relationship with `Booking`: one customer can have many bookings, and each booking belongs to one customer.
+
+### `Customer`
 
 | Field | Type | Notes |
 |---|---|---|
 | `id` | bigint (PK) | Auto-increment |
-| `customer_name` | string | Required |
-| `customer_email` | string | Required, valid email format |
+| `name` | string | Required |
+| `email` | string | Required, unique |
+
+### `Booking`
+
+| Field | Type | Notes |
+|---|---|---|
+| `id` | bigint (PK) | Auto-increment |
+| `customer_id` | foreign key | Required, belongs to `customers.id` |
 | `service_name` | string (backed enum value) | Required, one of the fixed `ServiceType` enum values |
 | `booking_date` | date | Required, must be today or later |
 | `booking_time` | time | Required |
@@ -179,8 +190,7 @@ The `BookingStatus` enum is the single source of truth for status value, display
 {
   "data": {
     "id": 1,
-    "customer_name": "Juan Dela Cruz",
-    "customer_email": "juan@example.com",
+    "customer": { "id": 1, "name": "Juan Dela Cruz", "email": "juan@example.com" },
     "service_name": "conference_room_a",
     "service_label": "Conference Room A",
     "booking_date": "2026-09-25",
@@ -202,7 +212,7 @@ The `BookingStatus` enum is the single source of truth for status value, display
 {
   "message": "The given data was invalid.",
   "errors": {
-    "customer_email": ["The customer email field must be a valid email address."]
+    "customer_id": ["The selected customer id is invalid."]
   }
 }
 ```

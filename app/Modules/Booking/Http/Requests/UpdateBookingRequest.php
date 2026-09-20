@@ -13,8 +13,7 @@ class UpdateBookingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customer_name' => ['sometimes', 'string', 'max:255'],
-            'customer_email' => ['sometimes', 'email', 'max:255'],
+            'customer_id' => ['sometimes', 'integer', 'exists:customers,id'],
             'service_name' => ['sometimes', new Enum(ServiceType::class)],
             'booking_date' => ['sometimes', 'date_format:Y-m-d', 'after_or_equal:today'],
             'booking_time' => ['sometimes', 'date_format:H:i'],

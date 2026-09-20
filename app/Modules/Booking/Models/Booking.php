@@ -6,13 +6,14 @@ use App\Modules\Booking\Enums\BookingStatus;
 use App\Modules\Booking\Enums\ServiceType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Booking extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'customer_name', 'customer_email', 'service_name',
+        'customer_id', 'service_name',
         'booking_date', 'booking_time', 'status', 'notes',
     ];
 
@@ -27,4 +28,6 @@ class Booking extends Model
     {
         return \App\Modules\Booking\Database\Factories\BookingFactory::new();
     }
+
+    public function customer(): BelongsTo { return $this->belongsTo(Customer::class); }
 }

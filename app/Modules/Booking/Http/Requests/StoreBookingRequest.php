@@ -13,8 +13,7 @@ class StoreBookingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customer_name' => ['required', 'string', 'max:255'],
-            'customer_email' => ['required', 'email', 'max:255'],
+            'customer_id' => ['required', 'integer', 'exists:customers,id'],
             'service_name' => ['required', new Enum(ServiceType::class)],
             'booking_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
             'booking_time' => ['required', 'date_format:H:i'],

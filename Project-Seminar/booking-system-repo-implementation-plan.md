@@ -199,3 +199,15 @@ Create a Postman collection with variables for `base_url` and `booking_id`, plus
 - **Time-dependent validation:** use `Carbon::setTestNow()` in tests or generate dates from `today()` in factories.
 - **Rate-limit demo flakiness:** use a dedicated throttle test and reset the limiter between scenarios.
 - **Over-scoping the seminar:** leave authentication, authorization, users, tokens, queues, events, caching, frontend work, and repository layering beyond the existing project pattern out of this implementation.
+
+## Relationship demonstration
+
+The Booking module includes a real Eloquent relationship for the seminar:
+
+- `Customer` has many `Bookings`.
+- `Booking` belongs to `Customer`.
+- `bookings.customer_id` is a foreign key to `customers.id`.
+- Booking requests send `customer_id`.
+- Booking responses include the related `customer` object.
+
+This gives the presentation a concrete relationship example without adding authentication or a frontend.
