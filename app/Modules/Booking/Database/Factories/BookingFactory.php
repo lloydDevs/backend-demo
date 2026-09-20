@@ -15,11 +15,11 @@ class BookingFactory extends Factory
     public function definition(): array
     {
         return [
-            'customer_id' => Customer::factory(),
-            'service_name' => fake()->randomElement(ServiceType::cases()),
+            'customer_id' => Customer::factory()->create()->id,
+            'service_name' => fake()->randomElement(array_column(ServiceType::cases(), 'value')),
             'booking_date' => fake()->dateTimeBetween('today', '+30 days')->format('Y-m-d'),
             'booking_time' => fake()->time('H:i'),
-            'status' => fake()->randomElement(BookingStatus::cases()),
+            'status' => fake()->randomElement(array_column(BookingStatus::cases(), 'value')),
             'notes' => fake()->optional()->sentence(),
         ];
     }
