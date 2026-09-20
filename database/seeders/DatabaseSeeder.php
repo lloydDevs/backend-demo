@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Modules\Product\Models\Product;
-use App\Modules\Role\Database\Seeders\RolePermissionSeeder;
+use App\Modules\Booking\Database\Seeders\BookingDatabaseSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -17,15 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Roles, permissions, and a demo admin (demo@example.com / password).
-        $this->call(RolePermissionSeeder::class);
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-
-        // Sample data so the Product module's CRUD has something to show.
-        Product::factory(15)->create();
+        $this->call(BookingDatabaseSeeder::class);
     }
 }
