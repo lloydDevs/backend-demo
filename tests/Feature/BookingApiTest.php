@@ -49,7 +49,9 @@ it('rejects a booking with an unknown customer', function () {
 });
 
 it('includes the customer relationship when showing a booking', function () {
-    $booking = Booking::factory()->for(Customer::factory())->create([
+    $customer = Customer::factory()->create();
+    $booking = Booking::factory()->create([
+        'customer_id' => $customer->id,
         'status' => BookingStatus::Pending->value,
     ]);
 
@@ -59,7 +61,9 @@ it('includes the customer relationship when showing a booking', function () {
 });
 
 it('enforces valid booking status transitions', function () {
-    $booking = Booking::factory()->for(Customer::factory())->create([
+    $customer = Customer::factory()->create();
+    $booking = Booking::factory()->create([
+        'customer_id' => $customer->id,
         'status' => BookingStatus::Pending->value,
     ]);
 
