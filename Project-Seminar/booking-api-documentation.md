@@ -10,7 +10,7 @@
 
 ## `GET /customers`
 
-Returns customer choices. Send the selected `id` as `customer_id` when creating or updating a Booking.
+Returns a list of all customers. Send the selected `id` as `customer_id` when creating or updating a Booking.
 
 ```json
 {
@@ -19,6 +19,58 @@ Returns customer choices. Send the selected `id` as `customer_id` when creating 
   ]
 }
 ```
+
+## `POST /customers`
+
+Creates a new Customer and returns `201 Created`.
+
+```json
+{
+  "name": "Alanna Ebert",
+  "email": "lmurray@example.net"
+}
+```
+
+| Field | Required | Rules |
+|---|---:|---|
+| `name` | Yes | String, maximum 255 characters |
+| `email` | Yes | Valid email, maximum 255 characters, unique |
+
+## `GET /customers/{customer}`
+
+Returns a single Customer by ID.
+
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "Maria Santos",
+    "email": "maria@example.com"
+  }
+}
+```
+
+## `PUT/PATCH /customers/{customer}`
+
+Updates an existing Customer's details. All fields are optional (`sometimes`).
+
+```json
+{
+  "name": "Alanna Ebert",
+  "email": "lmurray@example.net"
+}
+```
+
+## `DELETE /customers/{customer}`
+
+Deletes a Customer.
+
+```json
+{
+  "message": "Customer deleted successfully."
+}
+```
+
 
 ## `GET /services`
 

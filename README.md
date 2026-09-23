@@ -6,7 +6,7 @@ The project uses a manual modular-monolith structure. The Booking module is loca
 
 ## Features
 
-- Customer lookup endpoint
+- Customer CRUD through `Route::apiResource()`
 - Service-type lookup endpoint
 - Booking CRUD through `Route::apiResource()`
 - Customer → Booking Eloquent relationship
