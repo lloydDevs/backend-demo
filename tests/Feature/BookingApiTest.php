@@ -81,3 +81,43 @@ it('enforces valid booking status transitions', function () {
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['status']);
 });
+
+it('creates a new customer', function () {
+    $response = $this->postJson('/api/v1/customers', [
+        'name' => 'Alanna Ebert',
+        'email' => 'lmurray@example.net',
+    ]);
+
+    $response->assertCreated()
+        ->assertJsonPath('data.name', 'Alanna Ebert')
+        ->assertJsonPath('data.email', 'lmurray@example.net');
+});
+
+it('shows a customer by id', function () {
+    $customer = Customer::factory()->create([
+        'name' => 'Alanna Ebert',
+        'email' => 'lmurray2@example.net',
+    ]);
+
+    $this->getJson("/api/v1/customers/{$customer->id}")
+        ->assertOk()
+        ->assertJsonPath('data.id', $customer->id)
+        ->assertJsonPath('data.name', 'Alanna Ebert')
+        ->assertJsonPath('data.email', 'lmurray2@example.net');
+});
+
+it('updates customer info partially or fully', function () {
+    $customer = Customer::factory()->create([
+        'name' => 'Old Name',
+        'email' => 'old@example.com',
+    ]);
+
+    $this->patchJson("/api/v1/customers/{$customer->id}", [
+        'name' => 'Alanna Ebert',
+        'email' => 'lmurray@example.net',
+    ])->assertOk()
+        ->assertJsonPath('data.id', $customer->id)
+        ->assertJsonPath('data.name', 'Alanna Ebert')
+        ->assertJsonPath('data.email', 'lmurray@example.net');
+});
+

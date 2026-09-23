@@ -172,5 +172,42 @@ Creates a new booking with initial status `pending`.
    - Cause: Date is in the past or formatted incorrectly.
    - Fix: Use format `YYYY-MM-DD` with a future date.
 
-4. **Data doesn't change when sending `PATCH /api/v1/bookings/{id}` with `{"status": "..."}`**
-   - Cause: Status must be changed using `/api/v1/bookings/{id}/status`.
+---
+
+## 4. Create New Customer (POST)
+
+- **Method:** `POST`
+- **URL:** `http://127.0.0.1:8000/api/v1/customers`
+
+### Example Payload:
+```json
+{
+  "name": "Alanna Ebert",
+  "email": "lmurray@example.net"
+}
+```
+
+---
+
+## 5. Update Customer Info (PATCH / PUT)
+
+- **Method:** `PATCH` (or `PUT`)
+- **URL:** `http://127.0.0.1:8000/api/v1/customers/1` *(Replace `1` with customer ID)*
+
+### Example Payload:
+```json
+{
+  "name": "Alanna Ebert",
+  "email": "lmurray@example.net"
+}
+```
+
+*(You can also send just `"name"` or just `"email"` for a partial update)*
+
+---
+
+## 6. Get Customer Details (GET)
+
+- **Method:** `GET`
+- **URL:** `http://127.0.0.1:8000/api/v1/customers/1`
+
