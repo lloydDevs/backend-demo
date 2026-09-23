@@ -10,7 +10,18 @@
 
 ## `GET /customers`
 
-Returns a list of all customers. Send the selected `id` as `customer_id` when creating or updating a Booking.
+Returns a list of customers. Default order is by `id` ascending.
+
+Optional query parameters:
+| Parameter | Values | Default | Description |
+|---|---|---|---|
+| `sort_by` | `id`, `name`, `email`, `created_at` | `id` | Column to sort by |
+| `sort_dir` | `asc`, `desc` | `asc` | Sorting direction |
+
+Examples:
+- `GET /api/v1/customers` (ordered by `id` ascending: 1, 2, 3...)
+- `GET /api/v1/customers?sort_by=name` (ordered by name alphabetically)
+- `GET /api/v1/customers?sort_by=id&sort_dir=desc` (newest customer ID first)
 
 ```json
 {

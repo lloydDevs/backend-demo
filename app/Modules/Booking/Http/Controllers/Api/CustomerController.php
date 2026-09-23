@@ -13,7 +13,13 @@ class CustomerController
 {
     public function index(): AnonymousResourceCollection
     {
-        return CustomerResource::collection(Customer::query()->orderBy('name')->get());
+        $allowedSorts = ['id', 'name', 'email', 'created_at'];
+        $sortBy = request('sort_by', request('sort', 'id'));
+        $sortBy = in_array($sortBy, $allowedSorts, true) ? $sortBy : 'id';
+
+        $sortDir = strtolower(request('sort_dir', request('order', 'asc'))) === 'desc' ? 'desc' : 'asc';
+
+        return CustomerResource::collection(Customer::query()->orderBy($sortBy, $sortDir)->get());
     }
 
     public function store(StoreCustomerRequest $request): JsonResponse

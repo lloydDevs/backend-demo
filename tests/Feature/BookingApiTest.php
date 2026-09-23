@@ -18,6 +18,30 @@ it('returns customers for booking selection', function () {
         ->assertJsonPath('data.0.email', 'maria@example.com');
 });
 
+it('supports sorting customers via query parameters', function () {
+    Customer::query()->delete();
+    $c1 = Customer::factory()->create(['name' => 'Zachary', 'email' => 'z@example.com']);
+    $c2 = Customer::factory()->create(['name' => 'Alice', 'email' => 'a@example.com']);
+
+    // Default sorting is by id asc
+    $this->getJson('/api/v1/customers')
+        ->assertOk()
+        ->assertJsonPath('data.0.id', $c1->id)
+        ->assertJsonPath('data.1.id', $c2->id);
+
+    // Sort by name asc
+    $this->getJson('/api/v1/customers?sort_by=name')
+        ->assertOk()
+        ->assertJsonPath('data.0.id', $c2->id)
+        ->assertJsonPath('data.1.id', $c1->id);
+
+    // Sort by id desc
+    $this->getJson('/api/v1/customers?sort_by=id&sort_dir=desc')
+        ->assertOk()
+        ->assertJsonPath('data.0.id', $c2->id)
+        ->assertJsonPath('data.1.id', $c1->id);
+});
+
 it('creates a booking belonging to a customer', function () {
     $customer = Customer::factory()->create();
 

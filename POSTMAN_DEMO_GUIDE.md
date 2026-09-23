@@ -204,10 +204,23 @@ Creates a new booking with initial status `pending`.
 
 *(You can also send just `"name"` or just `"email"` for a partial update)*
 
+## 6. Get All Customers & Sorting (GET)
+
+- **Method:** `GET`
+- **URL:** `http://127.0.0.1:8000/api/v1/customers`
+
+### Sorting Query Parameters:
+| Query Parameter | Example | Result |
+| :--- | :--- | :--- |
+| *(Default)* | `GET /api/v1/customers` | Ordered by `id` ascending (`1, 2, 3...`) |
+| `sort_by=name` | `GET /api/v1/customers?sort_by=name` | Ordered by `name` alphabetically (`A-Z`) |
+| `sort_by=id&sort_dir=desc` | `GET /api/v1/customers?sort_by=id&sort_dir=desc` | Ordered by `id` descending (Newest first) |
+
 ---
 
-## 6. Get Customer Details (GET)
+## 7. Get Single Customer Details (GET)
 
 - **Method:** `GET`
 - **URL:** `http://127.0.0.1:8000/api/v1/customers/1`
+
 
